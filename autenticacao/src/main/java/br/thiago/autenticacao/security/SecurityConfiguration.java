@@ -30,10 +30,14 @@ public class SecurityConfiguration {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authoriza ->
                         authoriza
+                                .requestMatchers(HttpMethod.GET).permitAll()
+                                .requestMatchers(HttpMethod.POST).permitAll()
                                 .requestMatchers(HttpMethod.GET, "/api/usuarios/admin").hasRole("ADMIN")
                                 .requestMatchers(HttpMethod.GET, "/api/usuarios/user/{email:.+}").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/api/usuarios/imagem/{imageName:.+}").hasRole("USER")
                                 .requestMatchers(HttpMethod.POST, "/api/usuarios").permitAll()
                                 .requestMatchers(HttpMethod.POST, "/auth").permitAll()
+
                                 .anyRequest().authenticated()
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)

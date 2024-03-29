@@ -1,0 +1,86 @@
+/* styles.css */
+.container_livro {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 110px; /* Adiciona espaço acima do container */
+    height: auto;
+}
+
+.compra_titulo{
+    position: relative;
+    right: 43%;
+    font-family: Montserrat;
+}
+
+.book-image {
+    width: 300px;
+    height: auto;
+    margin-right: 20px; /* Adiciona margem à direita para separar a imagem das informações */
+}
+
+.container_infos {
+    font-family: Montserrat;
+    background-color: #ffffff; 
+    border: 1px solid #bbb;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+    padding: 20px; 
+    border-radius: 5px;
+    width: 700px;
+    height: auto;
+}
+
+.texto_autor{
+    margin-right: 825px;
+    font-family: Montserrat;
+
+}
+
+.book_titulo{
+    font-family: Montserrat;
+    font-weight: bold;
+    font-size: 24px;
+    margin-right: 855px;
+}
+
+.texto-justificado {
+    text-align: justify;
+    font-family: Montserrat;
+}
+
+.txt_quantidade{
+    font-family: Montserrat;
+}
+
+.estoque{
+    color:olivedrab;
+    font-family: Montserrat;
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+.paginas{
+    margin-right: 887px;
+    font-family: Montserrat;
+}
+
+.btn_comprar{
+    font-family: Montserrat;
+    font-weight: bold;
+    position: relative;
+    top: 0%;
+    transition: transform 0.3s ease; 
+    cursor: pointer;
+
+}
+
+.btn_comprar:hover {
+    transform: scale(1.1);
+  }
+
+  .book_preco{
+    color: #125ab5;;
+  }
+
+  .sinopse{
+    text-align: justify;
+  }

@@ -2,7 +2,6 @@ package br.thiago.autenticacao.shared;
 
 import lombok.*;
 
-import java.util.List;
 @Data
 @Getter
 @Setter

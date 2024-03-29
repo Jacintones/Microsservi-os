@@ -1,0 +1,65 @@
+.container_store {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+
+}
+
+.search-form {
+  display: flex;
+  align-items: center;
+}
+
+.search-input {
+  box-sizing: border-box;
+  height: 39px;
+  width: 340px;
+  border: 1px solid #E6E6E6;
+  border-radius: 10px;
+}
+.login_button,
+.register_button,
+.perfil_button,
+.title_store { 
+  font-family: Montserrat;
+  font-weight: bold;
+  border-radius: 20px;
+  width: 100px;
+  height: 39px;
+  border: none;
+  cursor: pointer;
+  background-position: center; 
+  transition: transform 0.3s ease;
+}
+
+.login_button {
+  background-color: royalblue;
+  margin-left: 10px; 
+}
+
+.register_button {
+  background-color: #04AA6D;
+  margin-left: 10px; 
+}
+
+.perfil_button {
+  background-color:orangered;
+  margin-left: 10px; 
+}
+
+.title_store {
+  position: absolute; 
+  color: #E6E6E6;
+  left: 50px; 
+}
+
+.login_button:hover,
+.register_button:hover,
+.perfil_button:hover {
+  transform: scale(1.1);
+}
+
+.livrinho{
+  margin-left: -600px;
+}

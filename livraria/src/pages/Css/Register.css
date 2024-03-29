@@ -1,0 +1,188 @@
+form {
+    display: flex;
+    text-align: left;
+    font-family: Montserrat;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  form input {
+    box-sizing: border-box;
+    height: 39px;
+    width: 340px;
+    flex-direction: column;
+    border: 1px solid #E6E6E6;
+    margin: 10px auto;
+    margin-bottom: 10px;
+}
+
+button{
+    background-color: royalblue;
+    border-color: transparent;
+    font-family: Montserrat;
+    color: whitesmoke;
+    border-radius: 5px;
+    width: 100px;
+    height: 40px;
+}
+
+.form_container {
+    position: relative;
+    width: 350px; 
+    height: 800px;
+    padding: 20px;
+    font-family: Montserrat;
+    background-color: rgb(255 255 255 / 30%);
+    backdrop-filter: blur(10px);
+    border: 1px solid darkgray; 
+    border-radius: 10px; 
+    margin: 0 auto; 
+    margin-top: 2%;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+  }
+.cadastro{
+  position: relative;
+  top: -30px;
+}
+  .btn_cadastro_2 {
+    background-color: #04AA6D;
+    color: whitesmoke;
+    font-family: Montserrat;
+    font-weight: bold;
+    position: relative;
+    top: 0px;
+    width: 150px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+  }
+  
+  .btn_cadastro_2:hover{
+    transform: scale(1.1); 
+  }
+
+  form {
+    display: flex;
+    text-align: left;
+    font-family: Montserrat;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  form input {
+    box-sizing: border-box;
+    height: 39px;
+    width: 340px;
+    flex-direction: column;
+    border: 1px solid #E6E6E6;
+    margin: 10px auto;
+    margin-bottom: 10px;
+}
+
+button{
+    background-color: royalblue;
+    border-color: transparent;
+    font-family: Montserrat;
+    color: whitesmoke;
+    border-radius: 5px;
+    width: 100px;
+    height: 40px;
+}
+
+.form_container {
+    position: relative;
+    width: 350px; 
+    height: 600px;
+    padding: 20px;
+    font-family: Montserrat;
+    background-color: rgb(255 255 255 / 30%);
+    backdrop-filter: blur(10px);
+    border: 1px solid darkgray; 
+    border-radius: 10px; 
+    margin: 0 auto; 
+    margin-top: 2%;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+  }
+
+  .btn_cadastro_2 {
+    background-color: #04AA6D;
+    color: whitesmoke;
+    font-family: Montserrat;
+    font-weight: bold;
+    position: relative;
+    top: 0px;
+    width: 150px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+  }
+  
+  .btn_cadastro_2:hover{
+    transform: scale(1.1); 
+  }
+
+  .custom-select {
+    position: relative;
+    font-family: Montserrat;
+    width: 100%; 
+    text-align: left; 
+}
+  
+select {
+  position: relative;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-color: DodgerBlue;
+  color: #ffffff;
+  font-weight: bold;
+  padding: 8px 16px;
+  border: 1px solid transparent;
+  border-color: transparent transparent rgba(0, 0, 0, 0.1) transparent;
+  cursor: pointer;
+  height: 39px;
+  border-radius: 10px;
+}
+
+select:after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border: 6px solid transparent;
+  border-color: #fff transparent transparent transparent;
+}
+
+select.select-arrow-active:after {
+  border-color: transparent transparent #fff transparent;
+}
+
+select option {
+  color: #ffffff;
+  background-color: DodgerBlue;
+  padding: 8px 16px;
+  cursor: pointer;
+}
+
+/* Estilize a lista de opções */
+select:focus::-ms-value {
+  color: transparent;
+}
+
+.select-hide {
+  display: none;
+}
+
+select option:hover, select option:selected {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+.custom-select label {
+    width: 150px; /* Largura desejada para o rótulo */
+    display: inline-block; /* Permite que o label e o select fiquem em linhas diferentes */
+    text-align: left; /* Alinha o texto à esquerda */
+}
+
+.select_options{
+  margin: 10px auto;
+}

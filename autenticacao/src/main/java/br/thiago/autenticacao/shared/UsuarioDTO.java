@@ -21,7 +21,7 @@ public class UsuarioDTO {
 
     private String imagem;
 
-    private RoleEnum role = RoleEnum.USER;
+    private RoleEnum role;
 
     private List<LivroDTO> livros;
 

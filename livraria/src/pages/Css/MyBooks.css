@@ -1,0 +1,118 @@
+
+
+.image-wrapper {
+    margin-right: 20px;
+}
+
+.image-wrapper img {
+    max-width: 200px;
+    max-height: 300px;
+}
+
+.info-wrapper {
+    flex-grow: 1;
+}
+
+.perfil {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    background-color: white;
+    width: 700px;
+    height: 400px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.perfil-content {
+    display: flex;
+    flex-direction: column;
+    margin-right: 20px;
+}
+
+.imagem_perfil {
+    width: 220px;
+    height: 230px;
+    border-radius: 1000px;
+    margin-left: 20px;
+    margin-top: 20px;
+}
+
+.div_infos {
+    display: flex;
+    font-family: Montserrat;
+    font-size: large;
+    flex-direction: column;
+    align-items: flex-start; 
+    position: relative;
+    top: 10px;
+}
+
+.compras_container{
+    font-family: Montserrat;
+    flex-direction: column;
+    display: flex;
+    margin-top: 80px;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    justify-content:center;
+}
+
+.livro-item {
+    margin-bottom: 20px;
+    list-style-type: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.book-info {
+    display: flex;
+    background-color: lightgray;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 1000px;
+}
+
+.txt_compras{
+    font-family: Montserrat;
+    position: absolute;
+    left: 200px;
+    top : 530px;
+}
+.txt_perfil{
+    font-family: Montserrat;
+    position: relative;
+    right: 595px;
+}
+
+
+.info {
+    display: flex;
+    padding: 20px;
+}
+
+.custom-file-upload {
+    margin-right: 10px;
+    margin-top: 3px;
+    background-color: transparent;
+    color: royalblue;
+    font-family: Montserrat;
+    text-decoration:underline;
+    font-weight: bold;
+    font-size: 20px;
+    cursor: pointer;
+    
+}
+
+
+.btn_senha {
+    margin-left: 10px; 
+    background-color: transparent;
+    color: #04AA6D;
+    font-family: Montserrat;
+    text-decoration:underline;
+    font-weight: bold;
+    font-size: 20px;
+    cursor: pointer;
+}

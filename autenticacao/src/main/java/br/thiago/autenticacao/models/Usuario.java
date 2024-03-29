@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.List;
+
 @Data
 @Getter
 @Setter
@@ -32,9 +33,11 @@ public class Usuario implements UserDetails {
     @Column(nullable = false)
     private String senha;
 
+    @Column(nullable = false)
+    private RoleEnum role;
+
     private String imagem;
 
-    private RoleEnum role = RoleEnum.USER;
 
 
     @Override

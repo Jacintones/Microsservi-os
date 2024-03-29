@@ -1,0 +1,115 @@
+.form_login {
+  display: flex;
+  text-align: left;
+  font-family: Montserrat;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.form_login-input {
+  box-sizing: border-box;
+  height: 39px;
+  width: 340px;
+  flex-direction: column;
+  border: 1px solid #E6E6E6;
+  margin: 0 auto; 
+  margin-bottom: 10px; 
+}
+
+
+
+.form-container-10 {
+  font-family: Montserrat;
+  position: relative;
+  width: 350px; 
+  height: 350px;
+  padding: 20px;
+  background-color: rgb(255 255 255 / 30%);
+  backdrop-filter: blur(10px);
+  border: 1px solid darkgray; 
+  border-radius: 10px; 
+  margin: 0 auto;
+  margin-top: 2%;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+}
+
+.btn_container {
+  display: flex;
+  justify-content: space-evenly;
+  width: 100%;
+  margin-top: 50px; 
+}
+
+.btn_login {
+  background-color: royalblue;
+  color: whitesmoke;
+  font-family: Montserrat;
+  width: 150px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.btn_cadastro {
+  background-color: #04AA6D;
+  color: whitesmoke;
+  font-family: Montserrat;
+  width: 150px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.btn_cadastro, .btn_login{
+  font-weight: bold;
+}
+
+.btn_cadastro:hover,
+.btn_login:hover {
+  transform: scale(1.1);
+}
+.btn_show_password{
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.btn_show_password img {
+  width: 30px; 
+  height: 30px; 
+}
+.password-input-container {
+  position: relative;
+}
+
+.password-input-container input {
+  padding-right: 40px; 
+}
+
+.password-input-container button {
+  position: absolute;
+  right: -25px; 
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: transparent; 
+  border: none; 
+  cursor: pointer; 
+}
+
+.form_login-password{
+  position: relative;
+  left: -5px;
+}
+
+.div-esqueceu{
+  position:relative;
+  left: 115px;
+}
+.btn_esqueceu{
+  width: 200px;
+  background-color: transparent;
+  color: #125ab5;
+  font-family: Montserrat;
+  font-weight: bold;
+  font-size: 16px;
+  text-decoration: underline;
+  cursor: pointer;
+}

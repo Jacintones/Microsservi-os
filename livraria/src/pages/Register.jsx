@@ -1,37 +1,37 @@
-import React, { useState } from "react";
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-import "./Css/Register.css";
+import React, { useState } from "react"
+import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
+import "./Css/Register.css"
 
 const Register = () => {
-    const url = "http://localhost:8765/auth-service/api/usuarios";
-    const authUrl = "http://localhost:8765/auth-service/auth";
-    const navigate = useNavigate();
-    const [nome, setNome] = useState("");
-    const [email, setEmail] = useState("");
-    const [senha, setSenha] = useState("");
-    const [equalSenha, setEqualSenha] = useState("");
-    const [role, setRole] = useState("USER");
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
+    const url = "http://localhost:8765/auth-service/api/usuarios"
+    const authUrl = "http://localhost:8765/auth-service/auth"
+    const navigate = useNavigate()
+    const [nome, setNome] = useState("")
+    const [email, setEmail] = useState("")
+    const [senha, setSenha] = useState("")
+    const [equalSenha, setEqualSenha] = useState("")
+    const [role, setRole] = useState("USER")
+    const [loading, setLoading] = useState(false)
+    const [error, setError] = useState(null)
 
     const handleSubmit = async (e) => {
-        e.preventDefault();
-        setError(null);
+        e.preventDefault()
+        setError(null)
 
         // Validação de entrada
         if (!nome || !email || !senha || !equalSenha) {
-            setError("Por favor, preencha todos os campos.");
-            return;
+            setError("Por favor, preencha todos os campos.")
+            return
         }
 
         if (senha !== equalSenha) {
-            setError("As senhas não correspondem.");
-            return;
+            setError("As senhas não correspondem.")
+            return
         }
 
-        setLoading(true);
-        console.log("Enviando solicitação de registro...");
+        setLoading(true)
+        console.log("Enviando solicitação de registro...")
 
         try {
             // Enviar solicitação de registro
@@ -40,49 +40,38 @@ const Register = () => {
                 email,
                 senha,
                 role
-            });
+            })
             
             const authToken = await axios.post(authUrl, {
                 email,
                 senha
-            });
+            })
         
             const usuario = res.data
             console.log(res.data)
             console.log(authToken.data)
 
             // Limpar campos de entrada
-            setNome('');
-            setEmail('');
-            setSenha('');
-            setEqualSenha('');
-            setLoading(false);
+            setNome('')
+            setEmail('')
+            setSenha('')
+            setEqualSenha('')
+            setLoading(false)
 
-            // Redirecionar para página principal
+            // Redirecionar para página principal passando os dados
             navigate("/", {
                 state: {
                     token: authToken.data,
                     id: usuario.id,
                     user: usuario
                 }
-            });
+            })
         } catch (error) {
             setLoading(false);
-            setError(error.response?.data?.message || error.message || "Erro ao registrar usuário.");
-            console.error("Erro ao registrar usuário:", error);
+            setError(error.response?.data?.message || error.message || "Erro ao registrar usuário.")
+            console.error("Erro ao registrar usuário:", error)
         }
-    };
-
-    const getAuthToken = async ({ email, senha }) => {
-        try {
-            console.log("Obtendo token de autenticação...");
-            const response = await axios.post(authUrl, { email, senha });
-            return response.data.token;
-        } catch (error) {
-            console.error("Erro ao obter token de autenticação:", error);
-            throw new Error(error.response?.data?.message || "Erro ao autenticar usuário.");
-        }
-    };
+    }
 
     return (
         <div>
@@ -120,6 +109,6 @@ const Register = () => {
             </form>
         </div>
     );
-};
+}
 
 export default Register;

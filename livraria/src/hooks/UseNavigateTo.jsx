@@ -1,11 +1,11 @@
-import { useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom"
 
 export const useNavigateTo = (path) => {
-  const history = useHistory();
+  const history = useHistory()
 
   const navigateTo = () => {
-    history.push(path);
-  };
+    history.push(path)
+  }
 
-  return navigateTo;
-};
+  return navigateTo
+}

@@ -1,26 +1,26 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect } from "react"
 
 // Custom hook
 export const useFetch = (url) => {  
-    const [data, setData] = useState(null);
-    const [loading, setLoading] = useState(false);
+    const [data, setData] = useState(null)
+    const [loading, setLoading] = useState(false)
 
     useEffect(() => {
         const fetchData = async () => {
-            setLoading(true);
+            setLoading(true)
             try {
-                const res = await fetch(url);
-                const json = await res.json();
-                setData(json);
+                const res = await fetch(url)
+                const json = await res.json()
+                setData(json)
             } catch (error) {
-                console.error("Erro ao fazer a requisição:", error);
+                console.error("Erro ao fazer a requisição:", error)
             } finally {
-                setLoading(false);
+                setLoading(false)
             }
         };
 
-        fetchData();
-    }, [url]);
+        fetchData()
+    }, [url])
 
-    return { data, loading };
+    return { data, loading }
 };

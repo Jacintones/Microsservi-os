@@ -1,5 +1,5 @@
-import axios from "axios";
-import { useState } from "react";
+import axios from "axios"
+import { useState } from "react"
 
 export const useToken = async (email, senha) => {
     const[token, setToken] = useState("")
@@ -11,10 +11,10 @@ export const useToken = async (email, senha) => {
     .then(response => {
         const authToken = response.data;
         setToken(authToken);
-        console.log('Token de autenticação obtido com sucesso:', authToken);
+        console.log('Token de autenticação obtido com sucesso:', authToken)
     
     })
     .catch(error => {
-        console.error('Erro ao obter o token de autenticação:', error);
-    });
-};
+        console.error('Erro ao obter o token de autenticação:', error)
+    })
+}

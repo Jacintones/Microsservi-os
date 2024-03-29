@@ -1,29 +1,29 @@
-import React, { useState } from 'react';
+import { useState } from 'react'
 import "./Css/CheckBox.css"
 
 const CheckBox = ({ livros, setLivros }) => {
-    const [orderNome, setOrderNome] = useState('asc'); // Estado para controlar a ordem atual de ordenação por nome
-    const [orderAutor, setOrderAutor] = useState('asc'); // Estado para controlar a ordem atual de ordenação por autor
-    const [orderPaginas, setOrderPaginas] = useState('asc'); // Estado para controlar a ordem atual de ordenação por número de páginas
-    const [orderPreco, setOrderPreco] = useState('asc'); // Estado para controlar a ordem atual de ordenação por preço
+    const [orderNome, setOrderNome] = useState('asc') // Estado para controlar a ordem atual de ordenação por nome
+    const [orderAutor, setOrderAutor] = useState('asc') // Estado para controlar a ordem atual de ordenação por autor
+    const [orderPaginas, setOrderPaginas] = useState('asc') // Estado para controlar a ordem atual de ordenação por número de páginas
+    const [orderPreco, setOrderPreco] = useState('asc') // Estado para controlar a ordem atual de ordenação por preço
 
     // Função para alternar a ordem entre ascendente e descendente
     const toggleOrder = (type) => {
         switch (type) {
             case 'nome':
-                setOrderNome(orderNome === 'asc' ? 'desc' : 'asc');
-                break;
+                setOrderNome(orderNome === 'asc' ? 'desc' : 'asc')
+                break
             case 'autor':
-                setOrderAutor(orderAutor === 'asc' ? 'desc' : 'asc');
-                break;
+                setOrderAutor(orderAutor === 'asc' ? 'desc' : 'asc')
+                break
             case 'paginas':
-                setOrderPaginas(orderPaginas === 'asc' ? 'desc' : 'asc');
-                break;
+                setOrderPaginas(orderPaginas === 'asc' ? 'desc' : 'asc')
+                break
             case 'preco':
-                setOrderPreco(orderPreco === 'asc' ? 'desc' : 'asc');
-                break;
+                setOrderPreco(orderPreco === 'asc' ? 'desc' : 'asc')
+                break
             default:
-                break;
+                break
         }
     }
 
@@ -31,49 +31,49 @@ const CheckBox = ({ livros, setLivros }) => {
     const handleSortByNome = () => {
         const sortedLivros = [...livros].sort((a, b) => {
             if (orderNome === 'asc') {
-                return a.titulo.localeCompare(b.titulo);
+                return a.titulo.localeCompare(b.titulo)
             } else {
-                return b.titulo.localeCompare(a.titulo);
+                return b.titulo.localeCompare(a.titulo)
             }
-        });
-        setLivros(sortedLivros);
-        toggleOrder('nome');
+        })
+        setLivros(sortedLivros)
+        toggleOrder('nome')
     }
 
     const handleSortByAutor = () => {
         const sortedLivros = [...livros].sort((a, b) => {
             if (orderAutor === 'asc') {
-                return a.autor.localeCompare(b.autor);
+                return a.autor.localeCompare(b.autor)
             } else {
-                return b.autor.localeCompare(a.autor);
+                return b.autor.localeCompare(a.autor)
             }
-        });
-        setLivros(sortedLivros);
-        toggleOrder('autor');
+        })
+        setLivros(sortedLivros)
+        toggleOrder('autor')
     }
 
     const handleSortByPaginas = () => {
         const sortedLivros = [...livros].sort((a, b) => {
             if (orderPaginas === 'asc') {
-                return a.paginas - b.paginas;
+                return a.paginas - b.paginas
             } else {
-                return b.paginas - a.paginas;
+                return b.paginas - a.paginas
             }
         });
-        setLivros(sortedLivros);
-        toggleOrder('paginas');
+        setLivros(sortedLivros)
+        toggleOrder('paginas')
     }
 
     const handleSortByPreco = () => {
         const sortedLivros = [...livros].sort((a, b) => {
             if (orderPreco === 'asc') {
-                return a.preco - b.preco;
+                return a.preco - b.preco
             } else {
-                return b.preco - a.preco;
+                return b.preco - a.preco
             }
-        });
-        setLivros(sortedLivros);
-        toggleOrder('preco');
+        })
+        setLivros(sortedLivros)
+        toggleOrder('preco')
     }
 
     return (

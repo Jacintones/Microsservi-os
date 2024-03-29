@@ -3,34 +3,34 @@ import { useState } from 'react';
 import "./Css/Book.css";
 
 const Book = () => {
-  const location = useLocation();
-  const book = location.state.book;
-  const id = location.state.id;
-  const navigate = useNavigate();
+  const location = useLocation()
+  const book = location.state.book
+  const id = location.state.id
+  const navigate = useNavigate()
 
   // Adicionando livros
-  const [dono] = useState(location.state.idUser);
-  const [isbn] = useState(book.isbn);
-  const [titulo] = useState(book.titulo);
-  const [autor] = useState(book.autor);
-  const [estoque, setEstoque] = useState(book.estoque);
-  const [paginas] = useState(book.paginas);
-  const [anoLancamento] = useState(book.anoLancamento);
-  const [preco] = useState(book.preco);
-  const [sinopse] = useState(book.sinopse);
-  const [imagem] = useState(book.imagem);
+  const [dono] = useState(location.state.idUser)
+  const [isbn] = useState(book.isbn)
+  const [titulo] = useState(book.titulo)
+  const [autor] = useState(book.autor)
+  const [estoque, setEstoque] = useState(book.estoque)
+  const [paginas] = useState(book.paginas)
+  const [anoLancamento] = useState(book.anoLancamento)
+  const [preco] = useState(book.preco)
+  const [sinopse] = useState(book.sinopse)
+  const [imagem] = useState(book.imagem)
 
   // URL para enviar os dados do livro
-  const url = "http://localhost:8765/book-service/api/livros/cadastrar";
+  const url = "http://localhost:8765/book-service/api/livros/cadastrar"
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault()
   
     if (estoque > 0) {
       try {
         // Atualizar o estado do estoque localmente
-        const updatedStock = estoque - 1;
-        setEstoque(updatedStock);
+        const updatedStock = estoque - 1
+        setEstoque(updatedStock)
   
         // Realizar a solicitação POST para cadastrar o livro
         await fetch(url, {
@@ -49,7 +49,7 @@ const Book = () => {
             sinopse,
             imagem
           })
-        });
+        })
   
         // Realizar a solicitação PUT para atualizar o estoque do livro
         await fetch(`http://localhost:8765/book-service/store/atualizar/${id}`, {
@@ -69,16 +69,16 @@ const Book = () => {
             sinopse,
             imagem
           })
-        });
+        })
 
         // Exibir um alerta de compra efetuada com sucesso
-        alert('Compra efetuada com sucesso!');
+        alert('Compra efetuada com sucesso!')
         
       } catch (error) {
-        console.error('Erro:', error);
+        console.error('Erro:', error)
       }
     }
-  };
+  }
 
   return (
     <div className='container_livro'>

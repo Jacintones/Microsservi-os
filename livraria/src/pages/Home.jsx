@@ -1,53 +1,54 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import { Link } from 'react-router-dom'; 
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import axios from 'axios'
+import { Link } from 'react-router-dom'
 import "./Css/Home.css"
 
 const Home = () => {
-  const userApiUrl = "http://localhost:8765/auth-service/api/usuarios/user/";
+  const userApiUrl = "http://localhost:8765/auth-service/api/usuarios/user/"
   const navigate = useNavigate()
-  const [user, setUser] = useState({ email: "", senha: "" });
-  const [token, setToken] = useState("");
-  const [showPassword, setShowPassword] = useState(false); // Estado para mostrar/esconder a senha
+  const [user, setUser] = useState({ email: "", senha: "" })
+  const [token, setToken] = useState("")
+  const [showPassword, setShowPassword] = useState(false);// Estado para mostrar/esconder a senha
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault()
 
     try {
-        // Autenticar usuário
+        // Autenticar usuário para gerar o token e passa-lo para proximas páginas
         const authResponse = await fetch("http://localhost:8765/auth-service/auth", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(user)
-        });
+        })
 
         if (!authResponse.ok) {
-            throw new Error('Erro ao autenticar');
+            throw new Error('Erro ao autenticar') 
         }
 
-        const authToken = await authResponse.text(); // Obter token de autenticação
-        setToken(authToken);
+        //Token é a resposta do auth
+        const authToken = await authResponse.text() // Obter token de autenticação
+        setToken(authToken)
 
         // Obter ID do usuário
-        const userResponse = await axios.get(userApiUrl + user.email);
-        const userId = userResponse.data;
+        const userResponse = await axios.get(userApiUrl + user.email)
+        const userId = userResponse.data
     
         // Configurar o cabeçalho da solicitação com o token de autenticação
         const config = {
           headers: {
             Authorization: `Bearer ${authToken}`
           }
-        };
+        }
         
         //Obter os dados do usuário pelo ID usando o token de autenticação
-        const userData = await axios.get(`http://localhost:8765/auth-service/api/usuarios/${userId}`, config);
-        const usuario = userData.data;
+        const userData = await axios.get(`http://localhost:8765/auth-service/api/usuarios/${userId}`, config)
+        const usuario = userData.data
 
         // Limpar campos de entrada
-        setUser({ email: "", senha: "" });
+        setUser({ email: "", senha: "" })
 
         // Navegar para a próxima rota com o ID do usuário e o token de autenticação
         navigate(`/`, {
@@ -58,7 +59,7 @@ const Home = () => {
             }
         });
     } catch (error) {
-        console.error('Erro ao autenticar:', error);
+        console.error('Erro ao autenticar:', error)
     }
   }
   
@@ -75,7 +76,6 @@ const Home = () => {
   return (
     <div>
       <div className='form-container-10'>
-        {/* Conteúdo da página Home, incluindo o formulário de autenticação */}
         <form onSubmit={handleSubmit} className="form_login">
           <h1>Login</h1>
           <label className="label-container">

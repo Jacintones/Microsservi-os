@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from "react";
-import styled from 'styled-components';
-import { useFetch } from "../hooks/UseFetch";
+import { useState, useEffect } from "react"
+import styled from 'styled-components'
+import { useFetch } from "../hooks/UseFetch"
 import "./Css/StorePage.css"
-import SearchBar from "../component/SearchBar";
-import { useNavigate } from "react-router-dom";
-import { useLocation } from 'react-router-dom';
-import CheckBox from "../component/CheckBox";
+import SearchBar from "../component/SearchBar"
+import { useNavigate } from "react-router-dom"
+import { useLocation } from 'react-router-dom'
+import CheckBox from "../component/CheckBox"
 
 const ListContainer = styled.div`
     border-radius: 5px;
@@ -147,6 +147,6 @@ const StorePage = () => {
             </div>
         </div>
     );
-};
+}
 
 export default StorePage;

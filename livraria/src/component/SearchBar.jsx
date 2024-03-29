@@ -1,22 +1,17 @@
-import React, { useState } from 'react';
 import "./Css/SearchBar.css"
-import { useNavigate } from 'react-router-dom';
-import { useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 
 const SearchBar = () => {
-  const navigate = useNavigate();
-  const location = useLocation();
-  const id = location.state ? location.state.id : null;
-  const user = location.state ? location.state.user: null;
-  const token =  location.state ? location.state.token : null;
-
-  const handleChange = (event) => {
-    setSearch(event.target.value);
-  };
+  const navigate = useNavigate()
+  const location = useLocation()
+  const id = location.state ? location.state.id : null
+  const user = location.state ? location.state.user: null
+  const token =  location.state ? location.state.token : null
 
   const handleSubmit = (event) => {
     event.preventDefault();
-  };
+  }
   
   const handleLogin = () => {
     navigate("/login")
@@ -33,7 +28,7 @@ const SearchBar = () => {
           id : id,
           user : user
       }
-  });  }
+  })  }
   
   return (
     <div className='container_store'> 
@@ -46,6 +41,6 @@ const SearchBar = () => {
 
   );
   
-};
+}
 
 export default SearchBar;

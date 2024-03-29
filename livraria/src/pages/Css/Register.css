@@ -178,9 +178,9 @@ select option:hover, select option:selected {
   background-color: rgba(0, 0, 0, 0.1);
 }
 .custom-select label {
-    width: 150px; /* Largura desejada para o rótulo */
-    display: inline-block; /* Permite que o label e o select fiquem em linhas diferentes */
-    text-align: left; /* Alinha o texto à esquerda */
+    width: 150px;
+    display: inline-block; 
+    text-align: left; 
 }
 
 .select_options{

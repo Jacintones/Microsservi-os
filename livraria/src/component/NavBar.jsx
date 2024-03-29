@@ -1,6 +1,7 @@
-import { Link } from 'react-router-dom'; 
+import { Link } from 'react-router-dom'
 
 const NavBar = () => {
+  //Links do programa
   return (
     <nav>
       <Link to="/"></Link>
@@ -10,6 +11,6 @@ const NavBar = () => {
       <Link to="/loja/:id"></Link>
     </nav>
   );
-};
+}
 
 export default NavBar;

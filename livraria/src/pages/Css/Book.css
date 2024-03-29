@@ -1,8 +1,7 @@
-/* styles.css */
 .container_livro {
     display: flex;
     flex-wrap: wrap;
-    margin-top: 110px; /* Adiciona espaço acima do container */
+    margin-top: 110px;
     height: auto;
 }
 
@@ -15,7 +14,7 @@
 .book-image {
     width: 300px;
     height: auto;
-    margin-right: 20px; /* Adiciona margem à direita para separar a imagem das informações */
+    margin-right: 20px; 
 }
 
 .container_infos {

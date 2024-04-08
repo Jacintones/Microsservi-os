@@ -1,13 +1,15 @@
 package br.thiago.autenticacao.security;
 
-import br.thiago.autenticacao.models.Usuario;
+import br.thiago.autenticacao.models.User;
 import br.thiago.autenticacao.repository.UsuarioRepository;
 import br.thiago.autenticacao.services.AuthenticationService;
+import br.thiago.autenticacao.services.impl.AutenticacaoServiceImpl;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -33,11 +35,11 @@ public class SecurityFilter extends OncePerRequestFilter {
 
         if (token != null) {
             String email = service.validaTokenJWT(token);
-            Optional<Usuario> usuarioOptional = repository.findByEmail(email);
+            Optional<User> usuarioOptional = repository.findByEmail(email);
 
             if (usuarioOptional.isPresent()) {
-                Usuario usuario = usuarioOptional.get();
-                var autentication = new UsernamePasswordAuthenticationToken(usuario, null, usuario.getAuthorities());
+                User user = usuarioOptional.get();
+                var autentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
                 SecurityContextHolder.getContext().setAuthentication(autentication);
             }
         }
@@ -54,4 +56,5 @@ public class SecurityFilter extends OncePerRequestFilter {
 
         return authHeader.substring(7); // Ignorar o prefixo "Bearer "
     }
+
 }

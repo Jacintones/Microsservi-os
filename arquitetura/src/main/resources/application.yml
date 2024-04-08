@@ -1,0 +1,15 @@
+server:
+  port: 8012
+
+
+spring:
+  application:
+    name: config-server
+
+  profiles:
+    active: native
+  cloud:
+    config:
+      server:
+        native:
+          search-locations: file:///C:\Users\thiag\OneDrive\Documentos\GitHub\Microsservices\configs

@@ -30,7 +30,7 @@ public class AuthenticationController {
     public String auth(@RequestBody AuthDTO authDTO){
 
         //Cria o usuario autenticado
-        var usuarioAuthenticationToken = new UsernamePasswordAuthenticationToken(authDTO.email(), authDTO.senha());
+        var usuarioAuthenticationToken = new UsernamePasswordAuthenticationToken(authDTO.email(), authDTO.password());
 
         //Autentica
         authenticationManager.authenticate(usuarioAuthenticationToken);

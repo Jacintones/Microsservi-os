@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: eureka-server
+  output:
+    ansi:
+      enabled: always
+  cloud:
+    config:
+      uri: http://localhost:8012
+
+
+

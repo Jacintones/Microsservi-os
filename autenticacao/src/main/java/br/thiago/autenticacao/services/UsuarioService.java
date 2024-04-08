@@ -1,13 +1,13 @@
 package br.thiago.autenticacao.services;
 
 import br.thiago.autenticacao.models.Email;
-import br.thiago.autenticacao.shared.UsuarioDTO;
+import br.thiago.autenticacao.shared.UserDTO;
 
 import java.util.List;
 
 public interface UsuarioService {
 
-    UsuarioDTO salvar(UsuarioDTO usuarioDTO, Email email);
+    UserDTO salvar(UserDTO userDTO, Email email);
 
-    List<UsuarioDTO> obterTodos();
+    List<UserDTO> obterTodos();
 }

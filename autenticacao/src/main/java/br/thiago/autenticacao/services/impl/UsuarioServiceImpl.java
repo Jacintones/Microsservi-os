@@ -1,10 +1,9 @@
 package br.thiago.autenticacao.services.impl;
 
-import br.thiago.autenticacao.http.LivrosFeignClient;
-import br.thiago.autenticacao.shared.LivroDTO;
-import br.thiago.autenticacao.shared.UsuarioDTO;
+import br.thiago.autenticacao.models.Exceptions.ResourceNotFoundException;
+import br.thiago.autenticacao.models.User;
+import br.thiago.autenticacao.shared.UserDTO;
 import br.thiago.autenticacao.models.Email;
-import br.thiago.autenticacao.models.Usuario;
 import br.thiago.autenticacao.repository.UsuarioRepository;
 import br.thiago.autenticacao.services.UsuarioService;
 import org.modelmapper.ModelMapper;
@@ -16,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 @Service
@@ -27,8 +27,6 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    @Autowired
-    private LivrosFeignClient livrosFeignClient;
 
     private final JavaMailSender javaMailSender;
 
@@ -37,56 +35,58 @@ public class UsuarioServiceImpl implements UsuarioService {
     public UsuarioServiceImpl(JavaMailSender javaMailSender) {
         this.javaMailSender = javaMailSender;
     }
+
     /**
      * Método para salvar usuários no banco de dados,
      * Gera-se primeiro uma instancia de usuario com os dados do parametro
-     * @param usuarioDTO usuario a ser salvo
+     * @param userDTO usuario a ser salvo
      * @return retorna o usuário salvo
      */
     @Override
-    public UsuarioDTO salvar(UsuarioDTO usuarioDTO, Email email) {
-        usuarioDTO.setId(null);
+    public UserDTO salvar(UserDTO userDTO, Email email) {
+        userDTO.setId(null);
 
-        //Verificar se o usuario existe
-        Optional<Usuario> usuarioJaExiste = repository.findByEmail(usuarioDTO.getEmail());
+        //Verificar se o user existe
+        Optional<User> usuarioJaExiste = repository.findByEmail(userDTO.getEmail());
 
         //Se existe, lança uma exceção
         if (usuarioJaExiste.isPresent()){
-            throw new RuntimeException("Usuário já existe");
+            throw new ResourceNotFoundException("Usuário já existe");
+        }
+
+        //business rules
+        if (userDTO.getEmail() == null || userDTO.getPassword() == null || userDTO.getRole() == null ){
+            throw new ResourceNotFoundException("Dados inválidas");
         }
 
         //Criptografando a senha
-        var passwordHash = passwordEncoder.encode(usuarioDTO.getSenha());
+        var passwordHash = passwordEncoder.encode(userDTO.getPassword());
 
         //Criar a instância do usuário
-        Usuario usuario = modelMapper.map(usuarioDTO, Usuario.class);
+        User user = modelMapper.map(userDTO, User.class);
 
         //Setando a senha
-        usuario.setSenha(passwordHash);
+        user.setPassword(passwordHash);
 
         //Salvar no banco e pegar a variável usuário atualizada com ID
-        usuario = repository.save(usuario);
+        user = repository.save(user);
 
         //Setando o id do DTO
-        usuarioDTO.setId(usuario.getId());
+        userDTO.setId(user.getId());
 
-        var message = new SimpleMailMessage();
-        message.setFrom("noreply@email.com");
-        message.setTo(email.to());
-        message.setSubject(email.subject());
-        message.setText(email.body());
-        javaMailSender.send(message);
+        //Criando o e-mail
+        generateEmail(email);
 
         //Retorna um usuárioDTO com os dados do novo usuário
-        return usuarioDTO;
+        return userDTO;
     }
     @Override
-    public List<UsuarioDTO> obterTodos() {
+    public List<UserDTO> obterTodos() {
         //Pega todos os usuários, mapea eles e converte para DTO
-        return repository.findAll()
+        return repository
+                .findAll()
                 .stream()
-                .map(usuario -> modelMapper
-                        .map(usuario, UsuarioDTO.class))
+                .map(usuario -> modelMapper.map(usuario, UserDTO.class))
                 .collect(Collectors.toList());
     }
 
@@ -95,64 +95,147 @@ public class UsuarioServiceImpl implements UsuarioService {
      * @param id id a ser procurado
      * @return retorna o Optional DTO
      */
-    public Optional<UsuarioDTO> obterPorId(Long id){
+    public Optional<UserDTO> obterPorId(Long id){
 
         if (id == null) {
-            throw new RuntimeException();
+            throw new ResourceNotFoundException("Id: "+id+ " é nulo");
         }
 
         //Pegando o usuario pelo email
-        Optional<Usuario> usuario = repository.findById(id);
+        Optional<User> usuario = repository.findById(id);
 
         if (usuario.isPresent()){
             //Convertendo para dto
-            UsuarioDTO dto = modelMapper.map(usuario.get(), UsuarioDTO.class);
-
-            List<LivroDTO> livros = livrosFeignClient.obterLivros(id);
-
-            //Adiciona a lista de livros na pessoa dto
-            dto.setLivros(livros);
+            UserDTO dto = modelMapper.map(usuario.get(), UserDTO.class);
 
             //Retornando
             return Optional.of(dto);
         }
 
+        //Retorna o optional vazio caso não esteja presetne
         return Optional.empty();
     }
 
-    public Long obterIdUsuario(String email){
-        Optional<Usuario> usuario = repository.findByEmail(email);
+    public Optional<UserDTO> getByEmail(String email){
 
-        if (usuario.isEmpty()){
-            throw new RuntimeException("Usuário não existe no banco");
+        if (email == null) {
+            throw new ResourceNotFoundException("email: "+email+ " é nulo");
         }
 
+        //Pegando o usuario pelo email
+        Optional<User> usuario = repository.findByEmail(email);
+
+        if (usuario.isPresent()){
+            //Convertendo para dto
+            UserDTO dto = modelMapper.map(usuario.get(), UserDTO.class);
+
+            //Retornando
+            return Optional.of(dto);
+        }
+
+        //Retorna o optional vazio caso não esteja presetne
+        return Optional.empty();
+    }
+
+    /**
+     * Método para obter o id atráves do e-mail
+     * @param email e-mail a ser passado
+     * @return retorna o id do usuario
+     */
+    public Long obterIdUsuario(String email){
+        //Busco pelo método do e-mail
+        Optional<User> usuario = repository.findByEmail(email);
+
+        //Verifico se está vazio, se sim, é porque o usuário não existe no banco
+        if (usuario.isEmpty()){
+            throw new ResourceNotFoundException("Usuário não existe no banco");
+        }
+
+        //Retorno o id do usuário
         return usuario.get().getId();
     }
 
-    public UsuarioDTO atualizar(Long id, UsuarioDTO usuarioDTO){
-
+    /**
+     * Método para fazer atualizações de usuário
+     * @param id id do usuario desejado
+     * @param userDTO corpo do usuario que vai ser atualizado para o @RequestBody
+     * @return retorna o próprio usuário
+     */
+    public UserDTO atualizar(Long id, UserDTO userDTO){
+        //Regra pra verificar a validação do id
         if (id == null) {
-            throw new RuntimeException("id inválido ");
+            throw new ResourceNotFoundException("id inválido ");
         }
 
-        Optional<Usuario> usuario = repository.findById(id);
+        //Procuro o usuário
+        Optional<User> usuario = repository.findById(id);
 
+        //Se estiver vazio, não existe esse id cadastrado no banco
         if (usuario.isEmpty()) {
-            throw new RuntimeException("Usuário com id " + id + " não encontrado!");
+            throw new ResourceNotFoundException("Usuário com id " + id + " não encontrado!");
+        }
+
+        if (userDTO.getRole() == null || userDTO.getPassword() == null || userDTO.getName() == null){
+            throw new ResourceNotFoundException("Dados inválidos");
         }
 
         //Setar id para o request
-        usuarioDTO.setId(id);
+        userDTO.setId(id);
 
-        Usuario usu = modelMapper.map(usuarioDTO, Usuario.class);
+        //Converto o dto para o formato padrão de dados para poder salvar
+        User usu = modelMapper.map(userDTO, User.class);
 
+        //Validação simples
         if (usu == null) {
-            throw new RuntimeException("Usuário inválido");
+            throw new ResourceNotFoundException("Usuário inválido");
         }
 
+        //Salvo no banco
         repository.save(usu);
 
-        return usuarioDTO;
+        //Retorno o próprio corpo
+        return userDTO;
+    }
+
+    public UserDTO updatePassword(String email, String password){
+        Optional<User> userOptional = repository.findByEmail(email);
+
+        if (userOptional.isEmpty()){
+            throw new ResourceNotFoundException("Usuário com email: "+email+ " não existe");
+        }
+
+        User user = userOptional.get();
+
+        var passwordHash = passwordEncoder.encode(password);
+
+        user.setPassword(passwordHash);
+
+        repository.save(user);
+
+        return modelMapper.map(user, UserDTO.class);
+    }
+
+    public Integer generateCode(String email ){
+        Optional<User> userOptional = repository.findByEmail(email);
+
+        if (userOptional.isEmpty()){
+            throw new ResourceNotFoundException("Usuário com email: "+email+ " não existe");
+        }
+        Random rand = new Random();
+
+        // Gerando um número aleatório de 4 dígitos
+        Integer code = rand.nextInt(9000) + 1000;
+
+        //return secret code
+        return code;
+    }
+
+    public void generateEmail(Email email){
+        var message = new SimpleMailMessage();
+        message.setFrom("noreply@email.com");
+        message.setTo(email.to());
+        message.setSubject(email.subject());
+        message.setText(email.body());
+        javaMailSender.send(message);
     }
 }

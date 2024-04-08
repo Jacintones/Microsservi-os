@@ -1,7 +1,8 @@
 package br.thiago.autenticacao.services.impl;
 
+import br.thiago.autenticacao.models.Exceptions.ResourceNotFoundException;
+import br.thiago.autenticacao.models.User;
 import br.thiago.autenticacao.shared.AuthDTO;
-import br.thiago.autenticacao.models.Usuario;
 import br.thiago.autenticacao.repository.UsuarioRepository;
 import br.thiago.autenticacao.services.AuthenticationService;
 import com.auth0.jwt.JWT;
@@ -9,6 +10,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -39,7 +41,7 @@ public class AutenticacaoServiceImpl implements AuthenticationService {
     @Override
     public String obterToken(AuthDTO authDTO) {
 
-        Optional<Usuario> usuario = repository.findByEmail(authDTO.email());
+        Optional<User> usuario = repository.findByEmail(authDTO.email());
 
         return geraToken(usuario.get());
     }
@@ -47,21 +49,22 @@ public class AutenticacaoServiceImpl implements AuthenticationService {
     /**
      * Método para gerar o token do usuário,
      * coloca o subject, a data de expiraçao e o algoritmo
-     * @param usuario usuario para poder epgar o token
+     * @param user user para poder epgar o token
      * @return
      */
-    private String geraToken(Usuario usuario){
+    private String geraToken(User user){
         try {
             Algorithm algorithm = Algorithm.HMAC256("my-secret");
 
-            return JWT.create()
+            return JWT
+                    .create()
                     .withIssuer("auth-api")
-                    .withSubject(usuario.getEmail())
+                    .withSubject(user.getEmail())
                     .withExpiresAt(gerarDataExpiracao())
                     .sign(algorithm);
 
         }catch (JWTCreationException e){
-            throw new RuntimeException("Erro ao gerar o token");
+            throw new ResourceNotFoundException("Erro ao gerar o token");
         }
 
     }
@@ -72,7 +75,8 @@ public class AutenticacaoServiceImpl implements AuthenticationService {
      * @return
      */
     private Instant gerarDataExpiracao() {
-        return LocalDateTime.now()
+        return LocalDateTime
+                .now()
                 .plusHours(8)
                 .toInstant(ZoneOffset.of("-03:00"));
     }
@@ -88,7 +92,8 @@ public class AutenticacaoServiceImpl implements AuthenticationService {
         try {
             Algorithm algorithm = Algorithm.HMAC256("my-secret");
 
-            return JWT.require(algorithm)
+            return JWT
+                    .require(algorithm)
                     .withIssuer("auth-api")
                     .build()
                     .verify(token)
@@ -97,5 +102,7 @@ public class AutenticacaoServiceImpl implements AuthenticationService {
         }catch (JWTVerificationException e){
             return "";
         }
+
     }
+
 }

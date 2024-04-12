@@ -1,5 +1,6 @@
 package br.thiago.autenticacao.models;
 
+import br.thiago.autenticacao.enums.CategoryType;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
@@ -18,13 +19,16 @@ import java.util.List;
 @Table(name = "books")
 public class Book {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_book")
     private Long id;
 
-    @Column(nullable = false)
-    private String isbn;
+    @Column(nullable = false, unique = true)
+    private String isbn10;
+
+    @Column(nullable = false, unique = true)
+    private String isbn13;
 
     @Column(nullable = false)
     private String title;
@@ -50,14 +54,17 @@ public class Book {
     @Column(columnDefinition = "TEXT" , nullable = false)
     private String synopsis;
 
-    private String image;
+    @Column(nullable = false)
+    private CategoryType categoryType;
 
-    @ManyToMany(mappedBy = "books")
-    @JsonBackReference
-    private List<Order> orders;
+    @Column(nullable = false)
+    private String formatBook; //Capa dura ou mole
+
+    private String image;
 
     @OneToMany(mappedBy = "book")
     @JsonManagedReference
     private List<Available> availables;
+
 
 }

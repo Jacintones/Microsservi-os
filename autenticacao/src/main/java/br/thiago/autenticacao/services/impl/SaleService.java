@@ -4,7 +4,6 @@ import br.thiago.autenticacao.models.Exceptions.ResourceNotFoundException;
 import br.thiago.autenticacao.models.Sale;
 import br.thiago.autenticacao.models.User;
 import br.thiago.autenticacao.repository.SaleRepository;
-import br.thiago.autenticacao.repository.UsuarioRepository;
 import br.thiago.autenticacao.shared.SaleDTO;
 import br.thiago.autenticacao.shared.UserDTO;
 import org.modelmapper.ModelMapper;
@@ -21,49 +20,50 @@ public class SaleService {
     @Autowired
     private SaleRepository saleRepository;
 
+    //Fazer a transferência de dados
     private final ModelMapper mapper = new ModelMapper();
 
     /**
-     * Method to retrieve all sales.
-     * @return Returns a list of sales.
+     * Método para obter todas as vendas
+     * @return Retorna uma lista de vendas
      */
     public List<SaleDTO> getAll(){
-        // Retrieve all sales from the repository and map them to DTOs
+        // Recupera todas as vendas do repositório e as mapeia para DTOs
         return saleRepository
                 .findAll()
                 .stream()
-                .map(sale -> mapper.map(sale, SaleDTO.class)) // Map the sale to a DTO
-                .collect(Collectors.toList()); // Collect into a list
+                .map(sale -> mapper.map(sale, SaleDTO.class)) // Mapeia a venda para um DTO
+                .collect(Collectors.toList()); // Coleta em uma lista
     }
 
     /**
-     * Method to retrieve a sale by its id.
-     * @param id Sale id.
-     * @return Returns an Optional with the sale DTO.
+     * Método para obter uma venda pelo seu id.
+     * @param id Id da venda.
+     * @return Retorna um Optional com o DTO da venda.
      */
     public Optional<SaleDTO> getById(Long id){
-        // Retrieve the sale by id
+        // Recupera a venda pelo id
         Optional<Sale> sale = saleRepository.findById(id);
 
-        // Check if the sale is null and throw an exception if so
+        // Verifica se a venda é nula e lança uma exceção se for
         if (sale.isEmpty()){
-            throw new ResourceNotFoundException("Sale with id: "+id+ " not found");
+            throw new ResourceNotFoundException("Venda com id: "+id+ " não encontrada");
         }
 
-        // Return the Optional containing the DTO of the sale
+        // Retorna o Optional contendo o DTO da venda
         return Optional.of(mapper.map(sale.get(), SaleDTO.class));
     }
 
     /**
-     * Get the user associated with a sale.
-     * @param id Sale id.
-     * @return Returns an Optional with the user DTO.
+     * Obter o usuário associado a uma venda.
+     * @param id Id da venda.
+     * @return Retorna um Optional com o DTO do usuário.
      */
     public Optional<UserDTO> getOrdersByUser(Long id){
         Optional<Sale> sale = saleRepository.findById(id);
 
         if (sale.isEmpty()){
-            throw new ResourceNotFoundException("Order with id : "+id+ " does not exist");
+            throw new ResourceNotFoundException("Pedido com id : "+id+ " não existe");
         }
 
         User user = sale.get().getUser();
@@ -74,78 +74,78 @@ public class SaleService {
     }
 
     /**
-     * Register a new sale.
-     * @param saleDTO Sale DTO to be registered.
-     * @return Returns the same object with parameters.
+     * Registrar uma nova venda.
+     * @param saleDTO DTO da venda a ser registrada.
+     * @return Retorna o mesmo objeto com parâmetros.
      */
     public SaleDTO register(SaleDTO saleDTO) {
-        // Check business rules
+        // Verifica as regras de negócio
         if (saleDTO.getUser() == null || saleDTO.getOrders() == null){
-            throw new ResourceNotFoundException("Invalid data");
+            throw new ResourceNotFoundException("Dados inválidos");
         }
 
-        // Set the ID to null as it's a new sale
+        // Define o ID como nulo, pois é uma nova venda
         saleDTO.setId(null);
 
-        // Convert DTO to data object
+        // Converte DTO para objeto de dados
         Sale sale = mapper.map(saleDTO, Sale.class);
 
-        // Save the sale in the database
+        // Salva a venda no banco de dados
         sale = saleRepository.save(sale);
 
-        // Set the ID of the sale DTO
+        // Define o ID do DTO da venda
         saleDTO.setId(sale.getId());
 
-        // Return the DTO of the sale
+        // Retorna o DTO da venda
         return saleDTO;
     }
 
     /**
-     * Method to delete a sale by its id.
-     * @param id Sale id.
+     * Método para excluir uma venda pelo seu id.
+     * @param id Id da venda.
      */
     public void delete(Long id){
         Optional<Sale> sale = saleRepository.findById(id);
 
         if (sale.isEmpty()){
-            throw new ResourceNotFoundException("Sale with id: "+id+ " does not exist");
+            throw new ResourceNotFoundException("Venda com id: "+id+ " não existe");
         }
 
         saleRepository.deleteById(id);
 
-        // Throw an exception indicating that the sale was successfully deleted
-        throw new ResourceNotFoundException("Sale deleted successfully!");
+        // Lança uma exceção indicando que a venda foi excluída com sucesso
+        throw new ResourceNotFoundException("Venda excluída com sucesso!");
     }
 
     /**
-     * Method to update a sale by its id.
-     * @param id Sale id.
-     * @param dto Sale to be changed.
-     * @return Returns the updated sale.
+     * Método para atualizar uma venda pelo seu id.
+     * @param id Id da venda.
+     * @param dto Venda a ser alterada.
+     * @return Retorna a venda atualizada.
      */
     public SaleDTO update(Long id, SaleDTO dto){
         if (id == null) {
-            throw new ResourceNotFoundException("Invalid id");
+            throw new ResourceNotFoundException("Id inválido");
         }
 
-        // Find the sale by id
+        // Encontra a venda pelo id
         Optional<Sale> sale = saleRepository.findById(id);
 
-        // If not found, throw an exception
+        // Se não encontrado, lança uma exceção
         if (sale.isEmpty()) {
-            throw new ResourceNotFoundException("Sale with id " + id + " not found!");
+            throw new ResourceNotFoundException("Venda com id " + id + " não encontrada!");
         }
 
-        // Keep the same ID of the DTO for this request
+        // Mantém o mesmo ID do DTO para esta solicitação
         dto.setId(id);
 
-        // Convert back to the original data object
+        // Converte de volta para o objeto de dados original
         Sale saleEntity = mapper.map(dto, Sale.class);
 
-        // Save in the database
+        // Salva no banco de dados
         saleRepository.save(saleEntity);
 
-        // Return the DTO
+        // Retorna o DTO
         return dto;
     }
 

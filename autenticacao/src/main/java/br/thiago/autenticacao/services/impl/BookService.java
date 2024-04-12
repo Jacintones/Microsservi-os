@@ -19,7 +19,7 @@ public class BookService {
     @Autowired
     private BookRepository bookRepository;
 
-    private ModelMapper mapper = new ModelMapper();
+    private final ModelMapper mapper = new ModelMapper();
 
     /**
      * Método para obter todos os livros do banco,
@@ -70,7 +70,7 @@ public class BookService {
     public BookDTO cadastrar(BookDTO livrodDTO){
         //Regras de negócio 
         if (livrodDTO.getAuthor() != null && livrodDTO.getTitle() != null
-        && livrodDTO.getPages() >= 0 && livrodDTO.getIsbn() != null
+        && livrodDTO.getPages() >= 0 && livrodDTO.getIsbn10() != null && livrodDTO.getIsbn13() != null
         && livrodDTO.getSynopsis() != null) {
 
             //Garantir que é uma inserção
@@ -160,31 +160,40 @@ public class BookService {
      * @return retorna o lucro
      */
     public BigDecimal calculateProfit(Long id){
-
+        //Pega o livro pelo seu id
         Optional<Book> book = bookRepository.findById(id);
 
+        //Verifica se ta vazio
         if (book.isEmpty()){
             throw new ResourceNotFoundException("Livro com id: "+id+ " não existe");
         }
 
+        //Converto para DTO
         BookDTO bookDTO = mapper.map(book.get(), BookDTO.class);
 
-        return bookDTO.getPrice().subtract(bookDTO.getPrice());
+        //Retorno o lucro
+        return bookDTO.getPrice().subtract(bookDTO.getCostPrice());
     }
 
     public BookDTO updateStock(Long id){
+        //Procuro o livro pelo seu id
         Optional<Book> bookOptional = bookRepository.findById(id);
 
+        //Verifico se ta vazio
         if (bookOptional.isEmpty()){
             throw new ResourceNotFoundException("Livro com id: "+id+" não encontrado");
         }
 
+        //Variável para salvar o livro
         Book book = bookOptional.get();
 
+        //Update no stock
         book.setStock(book.getStock() - 1);
 
+        //Salva no banco a alteração
         bookRepository.save(book);
 
+        //Converte para DTO
         return mapper.map(book, BookDTO.class);
     }
 }

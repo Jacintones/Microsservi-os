@@ -3,14 +3,13 @@ package br.thiago.autenticacao.services.impl;
 import br.thiago.autenticacao.models.Exceptions.ResourceNotFoundException;
 import br.thiago.autenticacao.models.User;
 import br.thiago.autenticacao.shared.AuthDTO;
-import br.thiago.autenticacao.repository.UsuarioRepository;
+import br.thiago.autenticacao.repository.UserRepository;
 import br.thiago.autenticacao.services.AuthenticationService;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -24,7 +23,7 @@ import java.util.Optional;
 public class AutenticacaoServiceImpl implements AuthenticationService {
 
     @Autowired
-    private UsuarioRepository repository;
+    private UserRepository repository;
 
     /**
      * Método para verificar como vai ser carregado, no caso, via email do usuário

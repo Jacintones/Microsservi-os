@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -37,6 +38,9 @@ public class Order {
 
     @Column(nullable = false)
     private boolean complet;
+
+    @Column(nullable = false)
+    private BigDecimal amount;
 
     @Column(nullable = false)
     private Date date;

@@ -27,14 +27,13 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String email;
 
     @Column(nullable = false)
     private String password;
 
-    @Column(nullable = false)
-    private RoleEnum role;
+    private RoleEnum role = RoleEnum.USER;
 
     @OneToMany(mappedBy = "user")
     @JsonManagedReference //Tornar a referência

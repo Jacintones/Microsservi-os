@@ -2,7 +2,7 @@ package br.thiago.autenticacao.view.controllers;
 
 import br.thiago.autenticacao.shared.UserDTO;
 import br.thiago.autenticacao.models.Email;
-import br.thiago.autenticacao.services.impl.UsuarioServiceImpl;
+import br.thiago.autenticacao.services.impl.UserServiceImpl;
 import br.thiago.autenticacao.view.models.UserRequest;
 import br.thiago.autenticacao.view.models.UserResponse;
 import org.modelmapper.ModelMapper;
@@ -32,13 +32,14 @@ import static br.thiago.autenticacao.util.UploadUtil.fazerUploadImagem;
 public class UserController {
 
     @Autowired
-    private UsuarioServiceImpl service;
+    private UserServiceImpl service;
+    
     private final ModelMapper modelMapper = new ModelMapper();
 
     private final Path imageDirectory = Paths.get("C:\\Users\\thiag\\OneDrive\\Documentos\\GitHub\\Microsservices\\autenticacao\\src\\main\\resources\\static\\img-uploads");
 
     @GetMapping("/lista")
-    public ResponseEntity<List<UserResponse>> obterTodos(){
+    public ResponseEntity<List<UserResponse>> getAll(){
         List<UserDTO> userDTOS = service.obterTodos();
 
         List<UserResponse> response = userDTOS
@@ -53,7 +54,7 @@ public class UserController {
     }
 
     @GetMapping(value="/{id}")
-    public ResponseEntity<Optional<UserResponse>> obterPorId(@PathVariable Long id){
+    public ResponseEntity<Optional<UserResponse>> getById(@PathVariable Long id){
 
         //Pegando o dto pelo email
         Optional<UserDTO> dto = service.obterPorId(id);
@@ -64,13 +65,25 @@ public class UserController {
         //Retornando o response entity
         return new ResponseEntity<>(Optional.of(userResponse), HttpStatus.OK);
     }
+
+    @GetMapping("/getUser/{email}")
+    public ResponseEntity<Optional<UserResponse>> getUserByEmail(@PathVariable String email){
+
+        Optional<UserDTO> dto = service.getByEmail(email);
+
+        UserResponse response = modelMapper.map(dto.get(), UserResponse.class);
+
+        return ResponseEntity.ok(Optional.of(response));
+    }
+
+
     /**
      * Método para salvar usuários
      * @param userRequest usuário a ser salvo
      * @return
      */
     @PostMapping
-    public ResponseEntity<UserResponse> salvar(@RequestBody UserRequest userRequest) {
+    public ResponseEntity<UserResponse> save(@RequestBody UserRequest userRequest) {
 
         //Convertendo o request pra dto
         UserDTO userDTO = modelMapper.map(userRequest, UserDTO.class);
@@ -89,12 +102,12 @@ public class UserController {
     }
 
     @GetMapping("/user/{email}")
-    public Long obterIdUsuario(@PathVariable String email){
+    public Long getIdOfUser(@PathVariable String email){
        return service.obterIdUsuario(email);
     }
 
     @PutMapping("/atualizar/{id}")
-    public ResponseEntity<UserResponse> atualizar(@PathVariable Long id, @RequestBody UserRequest entity) {
+    public ResponseEntity<UserResponse> update(@PathVariable Long id, @RequestBody UserRequest entity) {
         
         //Converter de request para dto
         UserDTO dto = modelMapper.map(entity, UserDTO.class);
@@ -105,7 +118,7 @@ public class UserController {
     }
 
     @PutMapping("/imagem/{id}")
-    public ResponseEntity<?> atualizarImagem(@PathVariable Long id, @RequestParam("file") MultipartFile imagem){
+    public ResponseEntity<?> updateI(@PathVariable Long id, @RequestParam("file") MultipartFile imagem){
         
         Optional<UserDTO> usuario = service.obterPorId(id);
 
@@ -159,19 +172,6 @@ public class UserController {
         return ResponseEntity.ok(num);
     }
 
-    @PutMapping("/update/password/{email}")
-    public ResponseEntity<UserResponse> updatePassword(@PathVariable String email, @RequestBody String password){
-        Optional<UserDTO> dto = service.getByEmail(email);
-
-        UserDTO userDTO = dto.get();
-
-        userDTO = service.updatePassword(email, password);
-
-        UserResponse response = modelMapper.map(userDTO, UserResponse.class);
-
-        return ResponseEntity.ok(response);
-
-    }
 
 
 }

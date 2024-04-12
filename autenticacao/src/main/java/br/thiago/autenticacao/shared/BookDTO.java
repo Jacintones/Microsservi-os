@@ -1,7 +1,11 @@
 package br.thiago.autenticacao.shared;
 
+import br.thiago.autenticacao.enums.CategoryType;
 import br.thiago.autenticacao.models.Available;
-import lombok.*;
+import br.thiago.autenticacao.models.Order;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -13,7 +17,9 @@ import java.util.List;
 public class BookDTO {
     private Long id;
 
-    private String isbn;
+    private String isbn10;
+
+    private String isbn13;
 
     private String title;
 
@@ -30,6 +36,10 @@ public class BookDTO {
     private BigDecimal costPrice;
 
     private String synopsis;
+
+    private CategoryType categoryType;
+
+    private String formatBook; //Capa dura ou mole
 
     private String image;
 

@@ -30,6 +30,7 @@ public class SecurityConfiguration {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authoriza ->
                         authoriza
+                                .requestMatchers(HttpMethod.PUT, "/api/usuarios/atualizar/{id}").permitAll()
                                 .requestMatchers(HttpMethod.GET).permitAll()
                                 .requestMatchers(HttpMethod.POST).permitAll()
                                 .requestMatchers(HttpMethod.GET, "/api/usuarios/admin").hasRole("ADMIN")

@@ -20,8 +20,12 @@ public class AddressService {
 
     private final ModelMapper mapper = new ModelMapper();
 
+    /**
+     * Método para obter todos os endereços no repositório
+     * @return Retorna uma lista de AddressDTO
+     */
     public List<AddressDTO> getAll(){
-        //Converter para DTO
+        // Converter para DTO
         return repository
                 .findAll()
                 .stream()
@@ -29,68 +33,89 @@ public class AddressService {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Método para obter um endereço pelo seu id
+     * @param id Id do endereço
+     * @return Retorna um Optional com AddressDTO
+     */
     public Optional<AddressDTO> getById(Long id){
-        //Catch the address by id
+        // Buscar o endereço pelo id
         Optional<Address> address = repository.findById(id);
 
-        //Check if the address is null, if yes, return a exception
+        // Verificar se o endereço é nulo, se sim, lançar uma exceção
         if (address.isEmpty()){
             throw new ResourceNotFoundException("Endereço com id: "+id+ " não encontrado");
         }
 
-        //Return the Optional
+        // Retornar o Optional
         return Optional.of(mapper.map(address.get(), AddressDTO.class));
     }
 
+    /**
+     * Método para registrar um endereço
+     * @param addressDTO Endereço que desejo inserir
+     * @return Retorna o mesmo endereço
+     */
     public AddressDTO register(AddressDTO addressDTO){
-        //It's a post
+        // É um post
         addressDTO.setId(null);
 
-        //convert dto in data
+        // Converter DTO em dados
         Address add = mapper.map(addressDTO, Address.class);
 
-        //save in the data
+        // Salvar os dados
         add = repository.save(add);
 
-        //set the id of dto
+        // Definir o ID do DTO
         addressDTO.setId(add.getId());
 
-        //return dto
+        // Retornar o DTO
         return addressDTO;
     }
 
+    /**
+     * Método para excluir um endereço pelo seu id
+     * @param id Id do endereço
+     */
     public void delete(Long id){
         Optional<Address> address = repository.findById(id);
 
-        address.ifPresent(value -> repository.delete(value));
-
-        throw new ResourceNotFoundException("Endereço não existe!");
+        // Se o endereço estiver presente, excluí-lo
+        address.ifPresentOrElse(value -> repository.delete(value),
+                () -> {
+                    throw new ResourceNotFoundException("Endereço não existe!");
+                });
     }
 
+    /**
+     * Método para atualizar um endereço
+     * @param id Id do endereço
+     * @param dto Corpo da alteração
+     * @return Retorna o DTO do endereço atualizado
+     */
     public AddressDTO update(Long id, AddressDTO dto){
         if (id == null) {
             throw new ResourceNotFoundException("id inválido ");
         }
 
-        //Find the address
+        // Encontrar o endereço
         Optional<Address> address = repository.findById(id);
 
-        //if is empty, throw new exception
+        // Se estiver vazio, lançar uma exceção
         if (address.isEmpty()) {
-            throw new ResourceNotFoundException("Usuário com id " + id + " não encontrado!");
+            throw new ResourceNotFoundException("Endereço com id " + id + " não encontrado!");
         }
 
-        //the dto's id is the same for this request
+        // O id do DTO é o mesmo para esta solicitação
         dto.setId(id);
 
-        //convert in data original
+        // Converter em dados originais
         Address add = mapper.map(dto, Address.class);
 
-        //save in the dateBase
+        // Salvar no banco de dados
         repository.save(add);
 
-        //Return dto
+        // Retornar o DTO
         return dto;
-
     }
 }

@@ -1,15 +1,13 @@
 package br.thiago.autenticacao.security;
 
 import br.thiago.autenticacao.models.User;
-import br.thiago.autenticacao.repository.UsuarioRepository;
+import br.thiago.autenticacao.repository.UserRepository;
 import br.thiago.autenticacao.services.AuthenticationService;
-import br.thiago.autenticacao.services.impl.AutenticacaoServiceImpl;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -25,7 +23,7 @@ public class SecurityFilter extends OncePerRequestFilter {
     private AuthenticationService service;
 
     @Autowired
-    private UsuarioRepository repository;
+    private UserRepository repository;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)

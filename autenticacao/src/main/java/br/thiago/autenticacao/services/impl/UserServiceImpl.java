@@ -4,8 +4,8 @@ import br.thiago.autenticacao.models.Exceptions.ResourceNotFoundException;
 import br.thiago.autenticacao.models.User;
 import br.thiago.autenticacao.shared.UserDTO;
 import br.thiago.autenticacao.models.Email;
-import br.thiago.autenticacao.repository.UsuarioRepository;
-import br.thiago.autenticacao.services.UsuarioService;
+import br.thiago.autenticacao.repository.UserRepository;
+import br.thiago.autenticacao.services.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
@@ -14,27 +14,24 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Random;
 import java.util.stream.Collectors;
 
 @Service
-public class UsuarioServiceImpl implements UsuarioService {
+public class UserServiceImpl implements UserService {
 
     @Autowired
-    private UsuarioRepository repository;
+    private UserRepository repository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-
-    private final JavaMailSender javaMailSender;
+    @Autowired
+    private  JavaMailSender javaMailSender;
 
     private final ModelMapper modelMapper = new ModelMapper();
-
-    public UsuarioServiceImpl(JavaMailSender javaMailSender) {
-        this.javaMailSender = javaMailSender;
-    }
 
     /**
      * Método para salvar usuários no banco de dados,
@@ -54,8 +51,8 @@ public class UsuarioServiceImpl implements UsuarioService {
             throw new ResourceNotFoundException("Usuário já existe");
         }
 
-        //business rules
-        if (userDTO.getEmail() == null || userDTO.getPassword() == null || userDTO.getRole() == null ){
+        //Regra de negócio
+        if (userDTO.getEmail() == null || userDTO.getPassword() == null || userDTO.getRole() == null ||  userDTO.getPassword().length() < 8){
             throw new ResourceNotFoundException("Dados inválidas");
         }
 
@@ -80,6 +77,11 @@ public class UsuarioServiceImpl implements UsuarioService {
         //Retorna um usuárioDTO com os dados do novo usuário
         return userDTO;
     }
+
+    /**
+     * Método para obter todos os usuarios da lista
+     * @return
+     */
     @Override
     public List<UserDTO> obterTodos() {
         //Pega todos os usuários, mapea eles e converte para DTO
@@ -179,6 +181,11 @@ public class UsuarioServiceImpl implements UsuarioService {
             throw new ResourceNotFoundException("Dados inválidos");
         }
 
+        if (!Objects.equals(usuario.get().getPassword(), userDTO.getPassword())){
+            var passwordHash = passwordEncoder.encode(userDTO.getPassword());
+            userDTO.setPassword(passwordHash);
+        }
+
         //Setar id para o request
         userDTO.setId(id);
 
@@ -197,39 +204,31 @@ public class UsuarioServiceImpl implements UsuarioService {
         return userDTO;
     }
 
-    public UserDTO updatePassword(String email, String password){
-        Optional<User> userOptional = repository.findByEmail(email);
-
-        if (userOptional.isEmpty()){
-            throw new ResourceNotFoundException("Usuário com email: "+email+ " não existe");
-        }
-
-        User user = userOptional.get();
-
-        var passwordHash = passwordEncoder.encode(password);
-
-        user.setPassword(passwordHash);
-
-        repository.save(user);
-
-        return modelMapper.map(user, UserDTO.class);
-    }
-
+    /**
+     * Método para criar um código de recuperação de senha
+     * @param email email do usuário logado
+     * @return retorna o código
+     */
     public Integer generateCode(String email ){
+        //Procuro o user pelo seu e-mail
         Optional<User> userOptional = repository.findByEmail(email);
 
+        //Verifico se o optional está vazio, se sim, lança uma exceção
         if (userOptional.isEmpty()){
             throw new ResourceNotFoundException("Usuário com email: "+email+ " não existe");
         }
+
+        //Instância do random
         Random rand = new Random();
 
-        // Gerando um número aleatório de 4 dígitos
-        Integer code = rand.nextInt(9000) + 1000;
-
-        //return secret code
-        return code;
+        //retorna o código de 4 dígitos
+        return rand.nextInt(9000) + 1000;
     }
 
+    /**
+     * Método para gerar um e-mail
+     * @param email passa o e-mail a ser enviado
+     */
     public void generateEmail(Email email){
         var message = new SimpleMailMessage();
         message.setFrom("noreply@email.com");

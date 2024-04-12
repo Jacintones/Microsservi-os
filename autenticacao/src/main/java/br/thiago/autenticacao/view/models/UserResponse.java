@@ -28,7 +28,7 @@ public class UserResponse {
 
     private String image;
 
-    private RoleEnum role;
+    private RoleEnum role = RoleEnum.USER;
 
     private List<Available> availables;
 

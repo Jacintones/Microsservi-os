@@ -5,7 +5,7 @@ import br.thiago.autenticacao.shared.UserDTO;
 
 import java.util.List;
 
-public interface UsuarioService {
+public interface UserService {
 
     UserDTO salvar(UserDTO userDTO, Email email);
 

@@ -22,6 +22,10 @@ public class OrderService {
 
     private final ModelMapper mapper = new ModelMapper();
 
+    /**
+     * Método para obter todos os pedidos
+     * @return retorna uma lista de pedidos
+     */
     public List<OrderDTO> getAll(){
         //Converter para DTO
         return repository
@@ -31,47 +35,74 @@ public class OrderService {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Método para obter o pedido pelo seu id
+     * @param id id a ser buscado na url
+     * @return retorna um optional de pedido
+     */
     public Optional<OrderDTO> getById(Long id){
-        //Catch the address by id
+        //Pega o pedido pelo id no repositório
         Optional<Order> order = repository.findById(id);
 
-        //Check if the address is null, if yes, return a exception
+        //Verifica se o pedido está vazio, se sim, lança a exceção
         if (order.isEmpty()){
             throw new ResourceNotFoundException("Endereço com id: "+id+ " não encontrado");
         }
 
-        //Return the Optional
+        //Retorna um optional de DTO
         return Optional.of(mapper.map(order.get(), OrderDTO.class));
     }
 
+    /**
+     * Método para registrar um pedido
+     * @param orderDTO corpo do pedido
+     * @return retorna o próprio corpo
+     */
     public OrderDTO register(OrderDTO orderDTO){
-        //It's a post
+        //É um post, então para garantir isso, seto o id para null
         orderDTO.setId(null);
 
-        //convert dto in data
+        //Regras de negócio
+        if (orderDTO.getAmount() == null || orderDTO.getDate() == null || orderDTO.getUser() == null){
+            throw new ResourceNotFoundException("Dados inválidos");
+        }
+
+        //Converto para DTO
         Order order = mapper.map(orderDTO, Order.class);
 
-        //save in the data
+        //Salvo no repositório
         order = repository.save(order);
 
-        //set the id of dto
+        //Seto o id para o salvo
         orderDTO.setId(order.getId());
 
-        //return dto
+        //Retorna o dto
         return orderDTO;
     }
 
+    /**
+     * Método para deletar algum pedido
+     * @param id do pedido a ser deletado
+     */
     public void delete(Long id) {
+        //Pega o pedido pelo id dele
         Optional<Order> orderOptional = repository.findById(id);
 
+        //Se tiver vazio, lança uma exceção
         if (orderOptional.isEmpty()) {
             throw new ResourceNotFoundException("Pedido com id: " + id + " não existe");
         }
 
+        //Deleta no banco
         repository.deleteById(id);
     }
 
-
+    /**
+     * Método para atualizar um pedido
+     * @param id id a ser atualizado
+     * @param dto corpo que vai ser atualizado
+     * @return retorna o dto
+     */
     public OrderDTO update(Long id, OrderDTO dto){
         if (id == null) {
             throw new ResourceNotFoundException("id inválido ");
@@ -103,6 +134,11 @@ public class OrderService {
         return dto;
     }
 
+    /**
+     * Método para atualizar o status do pedido
+     * @param id id do Pedido a ser atualizado
+     * @return retorna o dto
+     */
     public OrderDTO updateStatus(Long id){
         if (id == null) {
             throw new ResourceNotFoundException("id inválido ");
@@ -116,15 +152,17 @@ public class OrderService {
             throw new ResourceNotFoundException("Pedido com id " + id + " não encontrado!");
         }
 
+        //Salvo o pedido em uma variável
         Order order = orderOptional.get();
 
+        //Atualiza o status
         order.setComplet(true);
 
+        //Salva no repositório
         repository.save(order);
 
-        OrderDTO dto = mapper.map(order, OrderDTO.class);
-
-        return dto;
+        //Retorna o dto
+        return mapper.map(order, OrderDTO.class);
 
     }
 

@@ -1,0 +1,71 @@
+.available_container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.5); /* Fundo semi-transparente para o efeito de desfoque */
+    backdrop-filter: blur(5px); /* Efeito de desfoque */
+    z-index: 999; /* Garante que o componente esteja sempre acima dos outros elementos */
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s, opacity 0.3s linear;
+  }
+  
+  .available_container.show {
+    visibility: visible;
+    opacity: 1;
+  }
+  
+  .btn_mandar{
+    position: relative;
+    top: 50px;
+  }
+
+  .modalAvailable {
+    background-color: #fff; /* Cor de fundo branca para a caixa de diálogo */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5); /* Sombra para efeito de profundidade */
+    text-align: center;
+    width: 500px;
+    height: 400px;
+  }
+  
+  .modalAvailable h1 {
+    margin-bottom: 10px;
+  }
+  
+  .modalAvailable textarea {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+  
+  .modalAvailable button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .modalAvailable button:hover {
+    background-color: #0056b3;
+  }
+  .star {
+    color: gray; /* Cor padrão das estrelas */
+    cursor: pointer; /* Altera o cursor ao passar o mouse sobre as estrelas */
+    font-size: 34px; /* Define o tamanho da fonte das estrelas */
+  }
+  
+  .star.filled {
+    color: gold; /* Cor das estrelas preenchidas */
+  }
+  .hide {
+    display: none;
+}  
+

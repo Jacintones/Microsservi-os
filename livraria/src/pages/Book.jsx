@@ -1,105 +1,172 @@
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import "./Css/Book.css";
+import axios from 'axios';
+import StarRating from '../component/StarRating';
+import TopBar from "../component/TopBar";
 
 const Book = () => {
   const location = useLocation()
   const book = location.state.book
   const id = location.state.id
+  const idUser = location.state.idUser
+  const user = location.state.user
   const navigate = useNavigate()
+  const token = location.state.token
 
-  // Adicionando livros
-  const [dono] = useState(location.state.idUser)
-  const [isbn] = useState(book.isbn)
-  const [titulo] = useState(book.titulo)
-  const [autor] = useState(book.autor)
-  const [estoque, setEstoque] = useState(book.estoque)
-  const [paginas] = useState(book.paginas)
-  const [anoLancamento] = useState(book.anoLancamento)
-  const [preco] = useState(book.preco)
-  const [sinopse] = useState(book.sinopse)
-  const [imagem] = useState(book.imagem)
+  const [stock, setStock] = useState(book.stock)
+  const [availables, setAvailables] = useState([])
+  const [media, setMedia] = useState("")
+  const [numAvaliacoes, setNumAvaliacoes] = useState("")
 
   // URL para enviar os dados do livro
-  const url = "http://localhost:8765/book-service/api/livros/cadastrar"
+  const url = "http://localhost:8765/book-service/api/livros/cadastrar";
+
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  }
+
+  const handleMyCart = (e) => {
+    handleSubmit(e)
+    navigate("/cart" , {
+      state:{
+        user : user,
+        token : token
+      }
+    })
+    
+
+  }
+
+  const mediaAvaliable = async () => {
+    try {
+        const response = await axios.get(`http://localhost:8765/auth-service/api/livros/${book.id}`);
+        const avaliacoes = response.data.availables
+
+        if (avaliacoes && avaliacoes.length > 0) {
+            let soma = 0
+            for (let i = 0; i < avaliacoes.length; i++) {
+                soma += avaliacoes[i].value
+            }
+            const media = soma / avaliacoes.length
+            setMedia(media)
+            setNumAvaliacoes(avaliacoes.length)
+        } else {
+            setMedia(0) // Se não houver avaliações, define a média como 0
+        }
+    } catch (error) {
+        console.error('Erro ao obter avaliações:', error);
+    }
+  }
+
+  // Função para obter a disponibilidade de livros
+  const fetchAvailableBooks = async () => {
+    try {
+      const responseAvailable = await axios.get(`http://localhost:8765/auth-service/api/livros/${book.id}`);
+      setAvailables(responseAvailable.data.availables);
+    } catch (error) {
+      console.error('Erro na requisição axios:', error);
+    }
+  }
+  
+
+  useEffect(() => {
+    mediaAvaliable()
+    fetchAvailableBooks()
+  }, [])
+
+  
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
   
-    if (estoque > 0) {
+    if (stock > 0) {
       try {
-        // Atualizar o estado do estoque localmente
-        const updatedStock = estoque - 1
-        setEstoque(updatedStock)
-  
         // Realizar a solicitação POST para cadastrar o livro
-        await fetch(url, {
+        await fetch("http://localhost:8765/auth-service/api/order", {
           method: "POST",
           headers: {
             "Content-Type": "application/json"
           },
           body: JSON.stringify({
-            dono,
-            isbn,
-            titulo,
-            autor,
-            paginas,
-            anoLancamento,
-            preco,
-            sinopse,
-            imagem
+            books: [
+              {
+                id: book.id
+              }
+            ],
+            user: {
+              id: idUser
+            },
+            amount : book.price,
+            date: new Date().toISOString(),
+            complet: false,
+            
           })
-        })
-  
-        // Realizar a solicitação PUT para atualizar o estoque do livro
-        await fetch(`http://localhost:8765/book-service/store/atualizar/${id}`, {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({
-            estoque: updatedStock,
-            dono,
-            isbn,
-            titulo,
-            autor,
-            paginas,
-            anoLancamento,
-            preco,
-            sinopse,
-            imagem
-          })
-        })
-
-        // Exibir um alerta de compra efetuada com sucesso
-        alert('Compra efetuada com sucesso!')
+        })        
         
       } catch (error) {
         console.error('Erro:', error)
       }
     }
+
+    alert("Pedido adicionado ao carrinho")
   }
 
   return (
     <div className='container_livro'>
-      <img src={book.imagem} alt={book.titulo} className="book-image" />
+      <div>
+        <TopBar search={""} setSearch={""} />
+      </div>
+      <img src={book.image} alt={book.title} className="book-image" />
       <div className='container_infos'>
-        <h2>{book.titulo}</h2>
-        <p>por: {book.autor}</p>
-        <p className='sinopse'>Sinopse: {book.sinopse}</p>
-        <p>páginas: {book.paginas}</p>
-        <p>isbn: {book.isbn}</p>
-        <h2 className='book_preco'> R$ {book.preco}</h2>
-        {estoque ? (
+        <h2>{book.title}</h2>
+        <p>por: {book.author}</p>
+        <p className='sinopse'>Sinopse: {book.synopsis}</p>
+        <p>páginas: {book.pages}</p>
+        <p>isbn-10: {book.isbn10}</p>
+        <p>isbn-13: {book.isbn13}</p>
+        <StarRating rating={media} numAvaliacoes={numAvaliacoes} />
+        <h2 className='book_preco'> R$ {book.price}</h2>
+        {stock ? (
           <h2 className='estoque'>
             Em estoque
           </h2>
         ) : (<h2>Sem disponibilidade</h2>)}
-              <p className='txt_quantidade'>  Unidades : {estoque} </p>
-        <button className='btn_comprar' onClick={handleSubmit}>Comprar</button>
+        <p className='txt_quantidade'>  Unidades : {stock} </p>
+        <div className='buttons_compra'>
+          <button className='btn-cart' onClick={handleSubmit}>Adicionar ao Carrinho</button>
+          <button className='btn_comprar' onClick={handleMyCart}>Comprar</button>
+        </div>
+
       </div>
+      <div className='container_avaliables'>
+        <div className='avaliaçoes'>
+          <h1>Avaliações</h1>
+        </div>
+      <ul>
+        {availables.map(available => (
+          <li key={available.id} className='infos_avaliables'>
+            <div className="user-info">            
+              <div className='description'>
+                <p>{available.description}</p>
+                <p>
+                  {/* if ternario paras as estrelas */}
+                  {available.value >= 1 ? '★' : '☆'}
+                  {available.value >= 2 ? '★' : '☆'}
+                  {available.value >= 3 ? '★' : '☆'}
+                  {available.value >= 4 ? '★' : '☆'}
+                  {available.value >= 5 ? '★' : '☆'}
+              </p>
+              </div>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </div>
     </div>
   );
-}
+};
 
 export default Book;

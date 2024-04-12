@@ -1,0 +1,77 @@
+.Container-intial{
+    position: absolute;
+    background-color: black;
+    top:69px;
+    right: 0px;
+    left: 0px;
+    height: 400px;
+
+}
+
+.p-infos{
+    color: whitesmoke;
+    font-family: Montserrat;
+
+}
+
+.infos-home{
+    position: relative;
+    top: 50px;
+    left: 800px;
+    word-wrap: break-word;
+    width: 700px;
+    display: flex; /* Usa flexbox para controlar o layout */
+    align-items: center;
+}
+
+.img-info{
+    width: 200px;
+    height: auto;
+}
+
+.info-img-container{
+    font-family: Montserrat;
+    color: whitesmoke;
+    position: relative;
+    right: 500px;
+}
+
+.btn-home-store{
+    font-family: Montserrat;
+    font-weight: bold;
+    width: 300px;
+    height: 50px;
+    border-radius: 20px;
+    background-color: #04AA6D;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+.btn-home-store:hover{
+    transform: scale(1.1);
+
+}
+
+.about-me{
+    font-family: Montserrat;
+    position: relative;
+    top: 430px;
+    right: 620px;
+    color: black;
+}
+
+.about-me h1{
+    text-decoration: underline;
+}
+
+.about-me h2{
+    width: 700px;
+    word-wrap: break-word;
+    position: relative;
+    text-align: justify;
+    left: 590px;
+}
+
+.about-me p{
+    position: relative;
+    left: 100px;
+}

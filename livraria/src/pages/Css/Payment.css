@@ -1,0 +1,124 @@
+.page-payment {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 50%;
+    background-color: white;
+}
+
+.left-content {
+    border-right: 1px solid black;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.total-payment {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 50%;
+    background-color: whitesmoke; 
+}
+
+.total-payment-content {
+    padding: 20px;
+    box-sizing: border-box;
+    border-left: 1px solid black;
+}
+
+.prices-cart{
+    position: relative;
+    top: 300px;
+}
+
+.payment-select-credit, .payment-select-debit, .payment-select-pix {
+    background-color: lightgray;
+    backdrop-filter: blur(10px);
+    border: 1px solid darkgray; 
+    position: relative;
+    top: 120px;
+    width: 300px;
+    height: 70px;
+    margin: 30px auto; 
+    display: flex; 
+    align-items: center;
+}
+
+.payment-select-credit input[type="checkbox"],
+.payment-select-debit input[type="checkbox"],
+.payment-select-pix input[type="checkbox"] {
+    margin-left: 10px;
+    transform: scale(1.2); 
+}
+
+.title-payment{
+    position: relative;
+    top: 100px;
+    font-size: 25px;
+}
+
+.btn-buy-payment{
+    background-color: #04AA6D;
+    width: 304px;
+    height: 70px;
+    font-weight: bold;
+    font-size: 15px;
+    border-radius: 0px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.btn-buy-payment:hover{
+    transform: scale(1.1); 
+  }
+
+.pix-image{
+    width: 40px;
+    margin-left: 10px;
+
+}
+
+.card-img{
+    width: 40px;
+    margin-left: 10px;
+
+}
+
+.lbl-payment{
+    margin-left: 10px;
+}
+
+.pnl-top-white{
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    background-color: black;
+    backdrop-filter: blur(10px);
+    border: 1px solid darkgray; 
+
+}
+.logo-store {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 1; /* Defina um z-index maior */
+    color: black;
+    font-size: 15px;
+    background-color: #353535;
+    backdrop-filter: blur(10px);
+
+}
+
+.btn-library{
+    background-color: transparent;
+    color: #fff;
+    width: 300px;
+    height: 70px;
+    font-size: 25px;
+    font-weight: bold;
+    cursor: pointer;
+}

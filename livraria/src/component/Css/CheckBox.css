@@ -1,7 +1,17 @@
 .checkBoxContainer {
+    position: relative;
+    top: 20px;
     display: flex;
-    flex-direction: column;
-    align-items: flex-start; 
+    justify-content: center; /* Alinha os itens horizontalmente no centro */
+    flex-wrap: nowrap; /* Impede que os itens quebrem para a próxima linha */
+}
+
+.checkBoxContainer .item {
+    display: inline-block;
+    position: relative;
+    justify-content: center;
+    align-items: center;
+    top: 20px;
 }
 .btn_autor,
 .btn_nome,
@@ -14,5 +24,7 @@
     font-size: 20px;
     text-align: left; 
     cursor: pointer;
+    position: relative;
+    top: 20px;
 
 }

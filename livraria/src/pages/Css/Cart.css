@@ -1,0 +1,88 @@
+ul {
+    list-style-type: none;
+}
+
+.barra_preta {
+    background-color: #353535;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 20px;
+}
+
+
+.container-orders {
+    flex-direction: column;
+    position: relative;
+    top: 30px;
+    display: flex;
+    right: 20px;
+    width: 500px; 
+}
+
+.image-order{
+    width: 100px;
+    height: auto;
+}
+
+.container-unique{
+    font-family: Montserrat;
+    font-weight: bold;
+    padding: 20px;
+    display: flex;
+    background-color: lightgray;
+    margin-top: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
+    flex-direction: row-reverse;
+    justify-content: left;
+}
+
+.book-title{
+    word-wrap: break-word;
+    width: 200px;
+}
+
+.container-infos-cart{
+    flex-direction: column;
+    position: relative;
+    left: 100px;
+
+}
+.order-total {
+    font-family: Montserrat;
+    justify-content: center;
+    width: 250px;
+    margin-top: 50px;
+  }
+
+.button-order{
+    font-weight: bold;
+    width: 200px;
+    cursor: pointer;
+    background-color: black;
+
+    
+}
+
+
+
+.page {
+    font-family: Montserrat;
+    align-items: center;
+    justify-content: center;
+    display: flex; /* Use flexbox para posicionar os elementos */
+    flex-direction: column; /* Coloque os elementos um abaixo do outro */
+  }
+
+.pedidos-title{
+    position: relative;
+    font-family: Montserrat;
+    top: 50px;
+    justify-content: center;
+}
+
+.div-btn-order{
+    margin-top: 20px;
+}

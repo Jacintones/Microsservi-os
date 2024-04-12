@@ -1,53 +1,37 @@
-.container_store {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 10px;
 
-}
-
-.search-form {
-  display: flex;
-  align-items: center;
-}
-
-.search-input {
-  box-sizing: border-box;
-  height: 39px;
-  width: 340px;
-  border: 1px solid #E6E6E6;
-  border-radius: 10px;
-}
 .login_button,
-.register_button,
-.perfil_button,
-.title_store { 
+.register_button {
   font-family: Montserrat;
-  font-weight: bold;
-  border-radius: 20px;
   width: 100px;
   height: 39px;
   border: none;
   cursor: pointer;
-  background-position: center; 
+  background-color: transparent;
+  border: 1px solid white;
+  border-radius: 0px;
   transition: transform 0.3s ease;
+  margin-right: 30px;
 }
 
-.login_button {
-  background-color: royalblue;
-  margin-left: 10px; 
+.welcome{
+  color: whitesmoke;
 }
 
-.register_button {
-  background-color: #04AA6D;
-  margin-left: 10px; 
+.btns_logins{
+  position: relative;
+  flex-direction: row;
+  right: 250px;
 }
 
-.perfil_button {
-  background-color:orangered;
-  margin-left: 10px; 
+.txt-welcome{
+  position: relative;
+  right: 250px;
 }
 
+.icon_buttons{
+  position: relative;
+  top: -45px;
+}
 .title_store {
   position: absolute; 
   color: #E6E6E6;
@@ -62,4 +46,23 @@
 
 .livrinho{
   margin-left: -600px;
+}
+.cart-icon{
+  width: auto;
+  height: auto;
+}
+
+.icon-user{
+  width: auto;
+  height: auto;
+}
+
+.perfil_button{
+  background-color: transparent;
+  cursor: pointer;
+}
+.cart_button{
+  background-color: transparent;
+  cursor: pointer;
+
 }

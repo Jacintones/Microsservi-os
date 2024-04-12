@@ -31,9 +31,9 @@ const CheckBox = ({ livros, setLivros }) => {
     const handleSortByNome = () => {
         const sortedLivros = [...livros].sort((a, b) => {
             if (orderNome === 'asc') {
-                return a.titulo.localeCompare(b.titulo)
+                return a.title.localeCompare(b.title)
             } else {
-                return b.titulo.localeCompare(a.titulo)
+                return b.title.localeCompare(a.title)
             }
         })
         setLivros(sortedLivros)
@@ -43,9 +43,9 @@ const CheckBox = ({ livros, setLivros }) => {
     const handleSortByAutor = () => {
         const sortedLivros = [...livros].sort((a, b) => {
             if (orderAutor === 'asc') {
-                return a.autor.localeCompare(b.autor)
+                return a.author.localeCompare(b.author)
             } else {
-                return b.autor.localeCompare(a.autor)
+                return b.author.localeCompare(a.author)
             }
         })
         setLivros(sortedLivros)
@@ -55,9 +55,9 @@ const CheckBox = ({ livros, setLivros }) => {
     const handleSortByPaginas = () => {
         const sortedLivros = [...livros].sort((a, b) => {
             if (orderPaginas === 'asc') {
-                return a.paginas - b.paginas
+                return a.pages - b.pages
             } else {
-                return b.paginas - a.paginas
+                return b.pages - a.pages
             }
         });
         setLivros(sortedLivros)
@@ -67,9 +67,9 @@ const CheckBox = ({ livros, setLivros }) => {
     const handleSortByPreco = () => {
         const sortedLivros = [...livros].sort((a, b) => {
             if (orderPreco === 'asc') {
-                return a.preco - b.preco
+                return a.price - b.price
             } else {
-                return b.preco - a.preco
+                return b.price - a.price
             }
         })
         setLivros(sortedLivros)
@@ -78,7 +78,6 @@ const CheckBox = ({ livros, setLivros }) => {
 
     return (
         <div className='checkBoxContainer'>
-            <h1>Filtros</h1>
             <button className='btn_paginas' onClick={handleSortByPaginas}>
                 Páginas {orderPaginas === 'asc' ? '▲' : '▼'}
             </button>

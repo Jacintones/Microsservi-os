@@ -1,5 +1,3 @@
-
-
 .image-wrapper {
     margin-right: 20px;
 }
@@ -13,20 +11,11 @@
     flex-grow: 1;
 }
 
-.perfil {
-    display: flex;
-    align-items: flex-start;
-    justify-content: flex-start;
-    background-color: white;
-    width: 700px;
-    height: 400px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
 .perfil-content {
     display: flex;
     flex-direction: column;
-    margin-right: 20px;
+    border-radius: 100px;
+        
 }
 
 .imagem_perfil {
@@ -45,6 +34,7 @@
     align-items: flex-start; 
     position: relative;
     top: 10px;
+    right: 100px;
 }
 
 .compras_container{
@@ -74,17 +64,52 @@
     width: 1000px;
 }
 
+.address-info{
+    text-align: left;
+    display: flex;
+    background-color: lightgray;
+    flex-direction: column;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 350px;
+
+}
+
+.perfil-txt {
+    text-align: left; /* Alinha o texto à esquerda */
+    font-family: Montserrat;
+    font-weight: bold;
+    position: relative;
+    top: 80px;
+
+}
+.seusPedidos{
+    text-align: left;
+
+}
+.enderecos-txt {
+    text-align: right; /* Alinha o texto à direita */
+    font-family: Montserrat;
+    font-weight: bold;
+    position: relative;
+    top: 20px;
+    right: 450px;
+}
+.seusPedidos{
+    text-align: left; /* Alinha o texto à esquerda */
+    font-family: Montserrat;
+    font-weight: bold;
+    position: relative;
+    top: 60px;
+}
+
 .txt_compras{
     font-family: Montserrat;
     position: absolute;
     left: 200px;
     top : 530px;
 }
-.txt_perfil{
-    font-family: Montserrat;
-    position: relative;
-    right: 595px;
-}
+
 
 
 .info {
@@ -116,3 +141,122 @@
     font-size: 20px;
     cursor: pointer;
 }
+.btn_endereco{
+    margin-left: 10px; 
+    background-color: transparent;
+    color: peru;
+    font-family: Montserrat;
+    text-decoration:underline;
+    font-weight: bold;
+    font-size: 20px;
+    cursor: pointer; 
+}
+.btn_avaliacao{
+    background-color: transparent;
+    width: auto;
+    font-family: Montserrat;
+    font-weight: bold;
+    font-size: 20px;
+    color: #125ab5;
+    text-decoration: underline;
+    cursor: pointer;
+}
+.contanier_address{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Cor de fundo com transparência */
+    z-index: 999; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.address_content > div {
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Cor de fundo com transparência */
+    z-index: 999; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.overlayAddress{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.2); /* Cor de fundo com transparência */
+    z-index: 999; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.overlayAddress > div{
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.overlay > div {
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+.close-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: transparent;
+    color: white;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.address_content{
+    font-family: Montserrat;
+    display: flex;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    justify-content:center;
+    float: right;
+    width: 620px;
+    height: 400px;
+    overflow: auto; 
+    margin-right: 10px;
+}
+.perfil {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    background-color: white;
+    width: 620px;
+    height: 400px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-right: 20px;
+
+}
+
+.container-superior{
+    display: flex;
+    flex-direction: row-reverse;
+    position: relative;
+}
+

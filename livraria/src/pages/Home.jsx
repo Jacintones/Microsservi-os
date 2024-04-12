@@ -7,7 +7,10 @@ import "./Css/Home.css"
 const Home = () => {
   const userApiUrl = "http://localhost:8765/auth-service/api/usuarios/user/"
   const navigate = useNavigate()
-  const [user, setUser] = useState({ email: "", senha: "" })
+  const [user, setUser] = useState({
+     email: "",
+     password: "" 
+    })
   const [token, setToken] = useState("")
   const [showPassword, setShowPassword] = useState(false);// Estado para mostrar/esconder a senha
 
@@ -48,14 +51,14 @@ const Home = () => {
         const usuario = userData.data
 
         // Limpar campos de entrada
-        setUser({ email: "", senha: "" })
+        setUser({ email: "", password: "" })
 
         // Navegar para a próxima rota com o ID do usuário e o token de autenticação
-        navigate(`/`, {
+        navigate(`/store`, {
             state: {
                 token: authToken,
                 id : userId,
-                user : usuario
+                user : usuario,
             }
         });
     } catch (error) {
@@ -71,6 +74,10 @@ const Home = () => {
     } else {
       btn.src = 'https://icon-library.com/images/icon-eyes/icon-eyes-12.jpg'
     }
+  }
+
+  const handleChangePassword = () => {
+    navigate("/changePassword")
   }
 
   return (
@@ -92,9 +99,9 @@ const Home = () => {
             <div className="password-input-container">
               <input 
                 type={showPassword ? "text" : "password"} 
-                value={user.senha} 
-                name='senha' 
-                onChange={(e) => setUser({ ...user, senha: e.target.value })} 
+                value={user.password} 
+                name='password' 
+                onChange={(e) => setUser({ ...user, password: e.target.value })} 
                 style={{ paddingRight: "40px" }}
                 className="form_login-password"
               />
@@ -114,7 +121,7 @@ const Home = () => {
         </form>
       </div>
       <div className='div-esqueceu'>
-        <button className='btn_esqueceu'>Esqueceu a senha?</button>
+        <button className='btn_esqueceu' onClick={handleChangePassword}>Esqueceu a senha?</button>
       </div>
     </div>
   );  

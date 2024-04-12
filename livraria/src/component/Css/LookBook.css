@@ -1,0 +1,35 @@
+.horizontal-books{
+    display: flex;
+    justify-content: space-between;
+}
+
+.ListContainer {
+    position: relative;
+    right: 110px;
+    margin-top: 90px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-width: 500px; /* Define a largura mínima da lista */
+    }
+
+.ScrollButton {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 40px; /* Largura dos botões de rolagem */
+    background-color: rgba(255, 255, 255, 0.5); /* Cor de fundo dos botões */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 1; /* Para ficar acima da barra de rolagem */
+}
+
+.LeftScrollButton {
+    left: 0;
+}
+
+.RightScrollButton {
+    right: 0;
+}
